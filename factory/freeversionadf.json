@@ -1,0 +1,9 @@
+{
+	"name": "freeversionadf",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "2f8e9a92-3402-456e-9c96-6b863313d7de",
+		"tenantId": "e8d74c76-4537-4d62-a0a7-4ee40ef77a20"
+	}
+}
