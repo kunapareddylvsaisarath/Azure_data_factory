@@ -1,0 +1,91 @@
+{
+	"name": "Parquet1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "part-00000-c4899ab1-c394-407e-98d6-9f228177d6ea-c000.snappy.parquet",
+				"folderPath": "source/Fact_sales_data",
+				"fileSystem": "adffiles"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "SalesKey",
+				"type": "INT32"
+			},
+			{
+				"name": "DateKey",
+				"type": "INT32"
+			},
+			{
+				"name": "channelKey",
+				"type": "INT32"
+			},
+			{
+				"name": "StoreKey",
+				"type": "INT32"
+			},
+			{
+				"name": "ProductKey",
+				"type": "INT32"
+			},
+			{
+				"name": "PromotionKey",
+				"type": "INT32"
+			},
+			{
+				"name": "UnitCost",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "UnitPrice",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "SalesQuantity",
+				"type": "INT32"
+			},
+			{
+				"name": "ReturnQuantity",
+				"type": "INT32"
+			},
+			{
+				"name": "ReturnAmount",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "DiscountQuantity",
+				"type": "INT32"
+			},
+			{
+				"name": "DiscountAmount",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "TotalCost",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "SalesAmount",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "GeographyKey",
+				"type": "INT32"
+			},
+			{
+				"name": "Date",
+				"type": "UTF8"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

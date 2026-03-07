@@ -1,0 +1,9 @@
+{
+	"name": "siva234",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "174474f5-0fb9-4233-85ac-c49b92487bd3",
+		"tenantId": "e8d74c76-4537-4d62-a0a7-4ee40ef77a20"
+	}
+}
