@@ -1,0 +1,54 @@
+{
+	"name": "metadata_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "sourceschema",
+				"type": "varchar"
+			},
+			{
+				"name": "sourcetable",
+				"type": "varchar"
+			},
+			{
+				"name": "lakepath",
+				"type": "varchar"
+			},
+			{
+				"name": "laketablename",
+				"type": "varchar"
+			},
+			{
+				"name": "sqlschema",
+				"type": "varchar"
+			},
+			{
+				"name": "sqltable",
+				"type": "varchar"
+			},
+			{
+				"name": "watermark",
+				"type": "date"
+			},
+			{
+				"name": "keycolumn",
+				"type": "varchar"
+			},
+			{
+				"name": "flag",
+				"type": "bit"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "deltametadata"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

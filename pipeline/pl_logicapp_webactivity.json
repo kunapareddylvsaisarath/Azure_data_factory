@@ -1,0 +1,114 @@
+{
+	"name": "pl_logicapp_webactivity",
+	"properties": {
+		"activities": [
+			{
+				"name": "calling_for_webactivity",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "source",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "target",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "calling_for_webactivity",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": "https://prod-00.northcentralus.logic.azure.com:443/workflows/2c0c37faf9ee4466b86712f5070dd762/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=15Y0w7zq9iWd83ySlhoywnBRoaWAKjmI6GDSkwMOf1o",
+					"body": {
+						"value": "{\n \"dataFactory\": \"ADF_Project_Dev\",\n \"errorMessage\": \"Copy activity failed due to SQL connection issue\",\n \"pipelinename\": \"Load_Sales_Data\",\n \"subject\": \"ADF Pipeline Failure Alert\"\n}",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"pipelineName": {
+				"type": "string",
+				"defaultValue": "ADF_Project_Dev"
+			},
+			"errorMessage": {
+				"type": "string",
+				"defaultValue": "Copy activity failed due to SQL connection issue"
+			},
+			"dataFactory": {
+				"type": "string",
+				"defaultValue": "Load_Sales_Data"
+			},
+			"subject": {
+				"type": "string",
+				"defaultValue": "ADF Pipeline Failure Alert"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-03-10T06:27:18Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
