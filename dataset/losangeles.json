@@ -1,0 +1,17 @@
+{
+	"name": "losangeles",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "losangeles"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

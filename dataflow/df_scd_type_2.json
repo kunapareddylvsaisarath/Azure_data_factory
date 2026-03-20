@@ -1,0 +1,161 @@
+{
+	"name": "df_scd_type_2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "scd_type_2_source",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "scd_type_2_tgt",
+						"type": "DatasetReference"
+					},
+					"name": "target"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "scd_type_2_tgt",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "scd_type_2_tgt",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "srchash"
+				},
+				{
+					"name": "tgthash"
+				},
+				{
+					"name": "exists1"
+				},
+				{
+					"name": "isactive"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "exists2"
+				},
+				{
+					"name": "exists3"
+				},
+				{
+					"name": "isinactive"
+				},
+				{
+					"name": "alterRow1"
+				},
+				{
+					"name": "select2"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          user_id as string,",
+				"          {subscription } as string,",
+				"          price as string,",
+				"          {location } as string,",
+				"          pincode as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source(output(",
+				"          user_id as string,",
+				"          {subscription } as string,",
+				"          price as string,",
+				"          {location } as string,",
+				"          pincode as string,",
+				"          isactive as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> target",
+				"source1 derive(hash = md5(user_id,{subscription },price,{location },pincode)) ~> srchash",
+				"target derive(hash = md5(user_id,{subscription },price,{location },pincode)) ~> tgthash",
+				"srchash, tgthash exists(srchash@hash == tgthash@hash,",
+				"     negate:true,",
+				"     broadcast: 'auto')~> exists1",
+				"exists1 derive(is_active = 1) ~> isactive",
+				"isactive select(mapColumn(",
+				"          user_id,",
+				"          {subscription },",
+				"          price,",
+				"          {location },",
+				"          pincode,",
+				"          is_active",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"tgthash, srchash exists(target@user_id == source1@user_id,",
+				"     negate:false,",
+				"     broadcast: 'auto')~> exists2",
+				"exists2, srchash exists(tgthash@hash == srchash@hash,",
+				"     negate:true,",
+				"     broadcast: 'auto')~> exists3",
+				"exists3 derive(isactive = 0) ~> isinactive",
+				"isinactive alterRow(updateIf(true())) ~> alterRow1",
+				"alterRow1 select(mapColumn(",
+				"          user_id,",
+				"          {subscription },",
+				"          price,",
+				"          {location },",
+				"          pincode,",
+				"          isactive",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          user_id as string,",
+				"          {subscription } as string,",
+				"          price as string,",
+				"          {location } as string,",
+				"          pincode as string,",
+				"          isactive as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1",
+				"select2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          user_id as string,",
+				"          {subscription } as string,",
+				"          price as string,",
+				"          {location } as string,",
+				"          pincode as string,",
+				"          isactive as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink2"
+			]
+		}
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "remaining_rows_data",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "remainingsalesdata"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
