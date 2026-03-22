@@ -13,6 +13,25 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/remaining_rows_data')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "remainingsalesdata"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/sanfranscisco')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1097,6 +1116,87 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/sarath_pipe_csv_file_sensor_event_trgger')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"wildcardFileName": "*",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings",
+									"copyBehavior": "MergeFiles"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_input_file_sensor",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "sarath_csv_file_data_set_out",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "sarath_piplines"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/sarath_csv_file_data_set_out')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/df_derived_column')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1232,7 +1332,8 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/sanfranscisco')]"
+				"[concat(variables('factoryId'), '/datasets/sanfranscisco')]",
+				"[concat(variables('factoryId'), '/datasets/remaining_rows_data')]"
 			]
 		},
 		{
@@ -1305,224 +1406,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/scd_type_source')]",
 				"[concat(variables('factoryId'), '/datasets/scd_type_1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/df_scd_type_2')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "scd_type_2_source",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						},
-						{
-							"dataset": {
-								"referenceName": "scd_type_2_tgt",
-								"type": "DatasetReference"
-							},
-							"name": "target"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "scd_type_2_tgt",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						},
-						{
-							"dataset": {
-								"referenceName": "scd_type_2_tgt",
-								"type": "DatasetReference"
-							},
-							"name": "sink2"
-						}
-					],
-					"transformations": [
-						{
-							"name": "srchash"
-						},
-						{
-							"name": "tgthash"
-						},
-						{
-							"name": "exists1"
-						},
-						{
-							"name": "isactive"
-						},
-						{
-							"name": "select1"
-						},
-						{
-							"name": "exists2"
-						},
-						{
-							"name": "exists3"
-						},
-						{
-							"name": "isinactive"
-						},
-						{
-							"name": "alterRow1"
-						},
-						{
-							"name": "select2"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          user_id as string,",
-						"          {subscription } as string,",
-						"          price as string,",
-						"          {location } as string,",
-						"          pincode as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source1",
-						"source(output(",
-						"          user_id as string,",
-						"          {subscription } as string,",
-						"          price as string,",
-						"          {location } as string,",
-						"          pincode as string,",
-						"          isactive as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> target",
-						"source1 derive(hash = md5(user_id,{subscription },price,{location },pincode)) ~> srchash",
-						"target derive(hash = md5(user_id,{subscription },price,{location },pincode)) ~> tgthash",
-						"srchash, tgthash exists(srchash@hash == tgthash@hash,",
-						"     negate:true,",
-						"     broadcast: 'auto')~> exists1",
-						"exists1 derive(is_active = 1) ~> isactive",
-						"isactive select(mapColumn(",
-						"          user_id,",
-						"          {subscription },",
-						"          price,",
-						"          {location },",
-						"          pincode,",
-						"          is_active",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select1",
-						"tgthash, srchash exists(target@user_id == source1@user_id,",
-						"     negate:false,",
-						"     broadcast: 'auto')~> exists2",
-						"exists2, srchash exists(tgthash@hash == srchash@hash,",
-						"     negate:true,",
-						"     broadcast: 'auto')~> exists3",
-						"exists3 derive(isactive = 0) ~> isinactive",
-						"isinactive alterRow(updateIf(true())) ~> alterRow1",
-						"alterRow1 select(mapColumn(",
-						"          user_id,",
-						"          {subscription },",
-						"          price,",
-						"          {location },",
-						"          pincode,",
-						"          isactive",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select2",
-						"select1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          user_id as string,",
-						"          {subscription } as string,",
-						"          price as string,",
-						"          {location } as string,",
-						"          pincode as string,",
-						"          isactive as string",
-						"     ),",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1",
-						"select2 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          user_id as string,",
-						"          {subscription } as string,",
-						"          price as string,",
-						"          {location } as string,",
-						"          pincode as string,",
-						"          isactive as string",
-						"     ),",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink2"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/scd_type_2_source')]",
-				"[concat(variables('factoryId'), '/datasets/scd_type_2_tgt')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_dataflow')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "df_derived_column",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "df_derived_column",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {},
-									"sink2": {},
-									"sink3": {},
-									"sink4": {},
-									"sink5": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2026-03-11T06:49:43Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/df_derived_column')]"
 			]
 		}
 	]

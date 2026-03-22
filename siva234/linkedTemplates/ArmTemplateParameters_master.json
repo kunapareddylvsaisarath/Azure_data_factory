@@ -35,6 +35,9 @@
 		"sarath_trigger_copy_para_properties_sarath_pipe__dynamic_copy_parameters_pip_parameter_input_file_name": {
 			"value": "DIM_Store.csv"
 		},
+		"sarath_trigger_event_file_sensor_properties_typeProperties_scope": {
+			"value": "/subscriptions/d9d1b925-3f31-42df-94b3-d9a89d7ae86f/resourceGroups/siva_1/providers/Microsoft.Storage/storageAccounts/adls123456"
+		},
 		"containerUri": {
 			"value": ""
 		},
