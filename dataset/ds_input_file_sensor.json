@@ -1,0 +1,26 @@
+{
+	"name": "ds_input_file_sensor",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "linked_sarath_AzureDataLakeStorage2",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "sarath_datasets"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "input_file_sensor/csv_files",
+				"fileSystem": "sarath-input-src"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
