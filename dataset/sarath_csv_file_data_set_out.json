@@ -1,5 +1,5 @@
 {
-	"name": "DelimitedText2",
+	"name": "sarath_csv_file_data_set_out",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "linked_sarath_AzureDataLakeStorage2",
