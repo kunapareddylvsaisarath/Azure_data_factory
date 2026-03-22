@@ -1,0 +1,27 @@
+{
+	"name": "sarath_trigger_copy_para",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "sarath_pipe__dynamic_copy",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"pip_parameter_input_file_name": "DIM_Store.csv"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 15,
+				"startTime": "2026-03-22T19:40:00",
+				"timeZone": "Central Standard Time"
+			}
+		}
+	}
+}
