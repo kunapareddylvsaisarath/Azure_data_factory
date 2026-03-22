@@ -1,0 +1,44 @@
+{
+	"name": "DelimitedText2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "linked_sarath_AzureDataLakeStorage2",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"parameter_input_csv": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "sarath_datasets"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().parameter_input_csv",
+					"type": "Expression"
+				},
+				"folderPath": "csv-files",
+				"fileSystem": "sarath-input-src"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "ChannelKey",
+				"type": "String"
+			},
+			{
+				"name": "ChannelName",
+				"type": "String"
+			}
+		]
+	}
+}
