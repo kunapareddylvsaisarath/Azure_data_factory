@@ -1,0 +1,17 @@
+{
+	"name": "sarath_trigger_copy_para",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 15,
+				"startTime": "2026-03-22T19:37:00",
+				"timeZone": "Central Standard Time"
+			}
+		}
+	}
+}
