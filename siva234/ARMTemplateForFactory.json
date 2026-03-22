@@ -42,6 +42,10 @@
 		"linked_sarath_AzureDataLakeStorage2_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adls123456.dfs.core.windows.net/"
+		},
+		"sarath_trigger_copy_para_properties_sarath_pipe__dynamic_copy_parameters_pip_parameter_input_file_name": {
+			"type": "string",
+			"defaultValue": "DIM_Store.csv"
 		}
 	},
 	"variables": {
@@ -124,96 +128,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/source')]",
 				"[concat(variables('factoryId'), '/datasets/dynamically_name')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/sarath_pipe__dynamic_copy')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "sarath_csv_file_data_set",
-								"type": "DatasetReference",
-								"parameters": {
-									"parameter_input_csv": {
-										"value": "@pipeline().parameters.pip_parameter_input_file_name",
-										"type": "Expression"
-									}
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "sarath_csv_file_data_set_out",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"parameters": {
-					"pip_parameter_input_file_name": {
-						"type": "String"
-					}
-				},
-				"folder": {
-					"name": "sarath_piplines"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/sarath_csv_file_data_set')]",
-				"[concat(variables('factoryId'), '/datasets/sarath_csv_file_data_set_out')]"
 			]
 		},
 		{
@@ -889,6 +803,96 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/df_scd_type_2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sarath_pipe__dynamic_copy')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "sarath_csv_file_data_set",
+								"type": "DatasetReference",
+								"parameters": {
+									"parameter_input_csv": {
+										"value": "@pipeline().parameters.pip_parameter_input_file_name",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "sarath_csv_file_data_set_out",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"pip_parameter_input_file_name": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "sarath_piplines"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/sarath_csv_file_data_set')]",
+				"[concat(variables('factoryId'), '/datasets/sarath_csv_file_data_set_out')]"
 			]
 		},
 		{
@@ -2008,6 +2012,38 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sarath_trigger_copy_para')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "sarath_pipe__dynamic_copy",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"pip_parameter_input_file_name": "[parameters('sarath_trigger_copy_para_properties_sarath_pipe__dynamic_copy_parameters_pip_parameter_input_file_name')]"
+						}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Minute",
+						"interval": 15,
+						"startTime": "2026-03-22T19:40:00",
+						"timeZone": "Central Standard Time"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/sarath_pipe__dynamic_copy')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/df_derived_column')]",

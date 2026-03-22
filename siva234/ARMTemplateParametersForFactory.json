@@ -31,6 +31,9 @@
 		},
 		"linked_sarath_AzureDataLakeStorage2_properties_typeProperties_url": {
 			"value": "https://adls123456.dfs.core.windows.net/"
+		},
+		"sarath_trigger_copy_para_properties_sarath_pipe__dynamic_copy_parameters_pip_parameter_input_file_name": {
+			"value": "DIM_Store.csv"
 		}
 	}
 }

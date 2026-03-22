@@ -6,6 +6,10 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "siva234"
+		},
+		"sarath_trigger_copy_para_properties_sarath_pipe__dynamic_copy_parameters_pip_parameter_input_file_name": {
+			"type": "string",
+			"defaultValue": "DIM_Store.csv"
 		}
 	},
 	"variables": {
@@ -101,6 +105,36 @@
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-03-19T11:23:30Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sarath_trigger_copy_para')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "sarath_pipe__dynamic_copy",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"pip_parameter_input_file_name": "[parameters('sarath_trigger_copy_para_properties_sarath_pipe__dynamic_copy_parameters_pip_parameter_input_file_name')]"
+						}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Minute",
+						"interval": 15,
+						"startTime": "2026-03-22T19:40:00",
+						"timeZone": "Central Standard Time"
+					}
+				}
 			},
 			"dependsOn": []
 		}
