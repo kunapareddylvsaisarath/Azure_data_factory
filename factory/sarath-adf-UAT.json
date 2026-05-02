@@ -1,0 +1,15 @@
+{
+	"name": "sarath-adf-UAT",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Enabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "53b6b206-a36d-4c93-b35a-9993ce72c269",
+		"tenantId": "f30c1084-62a1-4500-8279-ea181f667577"
+	}
+}
