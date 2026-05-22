@@ -1,0 +1,15 @@
+{
+	"name": "adfsarath",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Enabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "5f205630-3ec0-4e0d-82cb-2000bfce6ef2",
+		"tenantId": "f30c1084-62a1-4500-8279-ea181f667577"
+	}
+}
