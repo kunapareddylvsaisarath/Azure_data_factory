@@ -56,7 +56,10 @@
 						"referenceName": "input_data_csv",
 						"type": "DatasetReference",
 						"parameters": {
-							"input_file_name": "2008 Contoso Data.csv"
+							"input_file_name": {
+								"value": "@pipeline().parameters.pip_input_file_name_parmater",
+								"type": "Expression"
+							}
 						}
 					}
 				],
@@ -68,6 +71,11 @@
 				]
 			}
 		],
+		"parameters": {
+			"pip_input_file_name_parmater": {
+				"type": "String"
+			}
+		},
 		"annotations": [
 			"2008 Contoso Data.csv"
 		]
