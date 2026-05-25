@@ -5,12 +5,20 @@
 			"referenceName": "AzureDataLakeStorage1",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"input_file_name": {
+				"type": "String"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "2008 Contoso Data.csv",
+				"fileName": {
+					"value": "@dataset().input_file_name",
+					"type": "Expression"
+				},
 				"folderPath": "csv_files",
 				"fileSystem": "landing"
 			},
