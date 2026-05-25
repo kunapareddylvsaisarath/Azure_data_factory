@@ -1,0 +1,15 @@
+{
+	"name": "datafactorysarath",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Enabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "e0d8adc7-7e4e-4b88-89fa-1fc0a000a51e",
+		"tenantId": "f30c1084-62a1-4500-8279-ea181f667577"
+	}
+}
