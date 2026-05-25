@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "2008 Contoso Data.csv",
 				"folderPath": "csv_files",
 				"fileSystem": "landing"
 			},
