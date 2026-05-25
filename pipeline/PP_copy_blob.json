@@ -1,5 +1,5 @@
 {
-	"name": "pipeline1",
+	"name": "PP_copy_blob",
 	"properties": {
 		"activities": [
 			{
@@ -54,7 +54,10 @@
 				"inputs": [
 					{
 						"referenceName": "input_data_csv",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"input_file_name": "2008 Contoso Data.csv"
+						}
 					}
 				],
 				"outputs": [
