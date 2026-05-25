@@ -1,0 +1,75 @@
+{
+	"name": "PP_paramter_copy",
+	"properties": {
+		"activities": [
+			{
+				"name": "BLOB_STORAGE_COPY",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"modifiedDatetimeStart": "2026-05-24T00:00:00.000Z",
+							"modifiedDatetimeEnd": "2026-05-24T12:00:00.000Z",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings",
+							"maxConcurrentConnections": 0,
+							"copyBehavior": "MergeFiles"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".csv"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "input_data_csv",
+						"type": "DatasetReference",
+						"parameters": {
+							"input_file_name": "2008 Contoso Data.csv"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_output_csv",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [
+			"2008 Contoso Data.csv"
+		]
+	}
+}
